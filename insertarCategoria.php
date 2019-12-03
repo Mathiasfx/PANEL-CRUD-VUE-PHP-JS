@@ -1,8 +1,8 @@
 <?php
 
 
-            $conn = new mysqli("localhost","laclase_mathias","Formosa1480","laclase_b2evolu");
-            //$conn = new mysqli("localhost","root","","bdpersona");
+            
+            $conn = new mysqli("localhost","root","","bdpersona");
 
             if($conn->connect_error){
                 die("Conexion Fallida: ".$conn->connect_error);

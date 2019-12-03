@@ -67,9 +67,9 @@
 	if(isset($_POST['txtpass']))
 	{
 		session_start();
-		//variable de conexion: recibe dirección del host , usuario, contraseña y el nombre base de datos
-		//$mysqli = new mysqli("localhost","root","","bdpersona")
-    	 $mysqli = new mysqli("localhost","laclase_mathias","Formosa1480","laclase_b2evolu") or die ("Error de conexion porque: ".$mysqli->connect_errno);
+		
+		$mysqli = new mysqli("localhost","root","","bdpersona")or die ("Error de conexion porque: ".$mysqli->connect_errno);
+    	
 		// comprobar la conexión
 		if (mysqli_connect_errno())
 		{

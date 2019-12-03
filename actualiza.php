@@ -2,7 +2,7 @@
 
 session_start();
 
-	$conn = new mysqli("localhost","laclase_mathias","Formosa1480","laclase_b2evolu");
+	
     //$conn = new mysqli("localhost","root","","bdpersona");
 
             if($conn->connect_error){
