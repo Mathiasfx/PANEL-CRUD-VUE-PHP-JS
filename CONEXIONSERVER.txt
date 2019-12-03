@@ -1,0 +1,1 @@
+	// $mysqli = new mysqli("localhost","laclase_mathias","Formosa1480","laclase_b2evolu") or die ("Error de conexion porque: ".$mysqli->connect_errno);
