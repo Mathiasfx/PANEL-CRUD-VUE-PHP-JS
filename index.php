@@ -68,7 +68,7 @@
 	{
 		session_start();
 		
-		$mysqli = new mysqli("localhost","root","","bdpersona")or die ("Error de conexion porque: ".$mysqli->connect_errno);
+		$mysqli = new mysqli("localhost","root","","bdproductos")or die ("Error de conexion porque: ".$mysqli->connect_errno);
     	
 		// comprobar la conexión
 		if (mysqli_connect_errno())

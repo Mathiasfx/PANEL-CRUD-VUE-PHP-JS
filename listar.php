@@ -70,8 +70,8 @@
 					<th>Id</th><th>Nombre</th><th>Categoria</th><th>$</th><th>Precio</th><th><span class="glyphicon glyphicon-wrench"></span></th>
 				</tr>
 <?php
-			$mysqli = new mysqli("localhost","laclase_mathias","Formosa1480","laclase_b2evolu");
-      //$mysqli = new mysqli("localhost","root","","bdpersona");
+			
+      $mysqli = new mysqli("localhost","root","","bdproductos");
 			if ($mysqli->connect_errno) {
 			    echo "Fallo al conectar a MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
 			    exit();

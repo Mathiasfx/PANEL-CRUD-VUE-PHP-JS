@@ -5,7 +5,7 @@ if(isset($_SESSION['nombreusu']))
 {
 	$id = $_GET['id'];
 	
-	$conn = new mysqli("localhost","root","","bdpersona");
+	$conn = new mysqli("localhost","root","","bdproductos");
 
             if($conn->connect_error){
                 die("Conexion Fallida: ".$conn->connect_error);
