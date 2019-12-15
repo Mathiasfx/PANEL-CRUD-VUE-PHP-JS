@@ -2,11 +2,7 @@
 
 
             
-            $conn = new mysqli("localhost","root","","bdproductos");
-
-            if($conn->connect_error){
-                die("Conexion Fallida: ".$conn->connect_error);
-            }
+           include_once 'Conexiones.php';
 
 
             $nombre = $_POST['nombre'];

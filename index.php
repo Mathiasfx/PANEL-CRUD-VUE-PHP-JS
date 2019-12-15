@@ -1,105 +1,105 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 	<title>::PANEL PRECIOS::</title>
-	<link rel="stylesheet" href="css/bootstrap.min.css">
-	<link rel="stylesheet" href="css/estilos.css">
+	<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico" />
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet" type="text/css" href="css/estilos.css">
+	<!--===============================================================================================-->
 </head>
+
 <body>
-	<header>
-		<nav class="navbar navbar-default navbar-static-top" role="navigation">
-			<div class="container">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navegacion-fm">
-						<span class="sr-only">Desplegar / Ocultar Menu</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					<a href="#" class="navbar-brand">:: PANEL DE PRECIOS ::</a>
+
+	<div class="limiter">
+		<div class="container-login100" style="background-image: url('img/img-01.jpg');">
+			<div class="wrap-login100 p-t-190 p-b-30">
+				<div class="wrap-login100">
+					<img src="img/logo.png" width="200px">
 				</div>
-				<div class="collapse navbar-collapse" id="navegacion-fm">
-					<ul class="nav navbar-nav">
-						<li><a href="http://www.laclasedigital.com.ar"><span class="glyphicon glyphicon-home"></span> Inicio</a></li>
-
-					</ul>
-
-				</div>
-			</div>
-		</nav>
-	</header>
-
-	<div class="container">
-		<img src="img/logo.png" width="180px"><br>
-		<div class="row">
-			<div class="col-md-4">
 
 				<form action="index.php" method="post">
-					<div class="form-group">
-						<label for="usu">Usuario:</label>
-						<input class="form-control" id="usu" type="text" name="txtlogin" required="true">
+					<span class="login100-form-title p-t-20 p-b-45">
+						Ingreso Panel
+					</span>
+
+					<div class="wrap-input100 validate-input m-b-10" data-validate="Usuario Requerido">
+						<input class="input100" id="usu" type="text" name="txtlogin" required="true">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-user"></i>
+						</span>
 					</div>
 
-					<div class="form-group">
-						<label for="pass">Password:</label>
-						<input class="form-control" id="pass" type="password" name="txtpass" required="true">
+					<div class="wrap-input100 validate-input m-b-10" data-validate="Password Requerido">
+						<input class="input100" id="pass" type="password" name="txtpass" required="true">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-lock"></i>
+						</span>
 					</div>
 
-					<input type="submit" class="btn btn-primary" value="Ingresar">
-				</form>
-				<br>
-				<div class="msg" id="msg">
+					<div class="container-login100-form-btn p-t-10">
+						<input type="submit" class="btn btn-success" value="Ingresar">
+					</div>
+					<div class="msg" id="msg">
 
 				</div>
+				</form>
 			</div>
 		</div>
 	</div>
 
-	<script src="js/jquery.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/metodos.js"></script>
+	<!--===============================================================================================-->
+	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+	<!--===============================================================================================-->
+	<script src="vendor/bootstrap/js/popper.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+	<!--===============================================================================================-->
+	<script src="vendor/select2/select2.min.js"></script>
+
+	
+	<!--===============================================================================================-->
 </body>
+
 </html>
-
 <?php
-	if(isset($_POST['txtpass']))
-	{
-		session_start();
-		
-		$mysqli = new mysqli("localhost","root","","bdproductos")or die ("Error de conexion porque: ".$mysqli->connect_errno);
-    	
-		// comprobar la conexión
-		if (mysqli_connect_errno())
-		{
-	    	printf("Falló la conexión: %s\n", mysqli_connect_error());
-	   		exit();
-		}
-
-		$login = $mysqli->real_escape_string($_POST['txtlogin']);
-		$pass = $mysqli->real_escape_string($_POST['txtpass']);
-
-		$resultado = $mysqli->query("SELECT * FROM tbusuario where login='$login' and pass='$pass' and activo!=0");
-		$valida=$resultado->num_rows;
-		if($valida != 0)
-		{
-			$datosUsu = $resultado->fetch_row();
-			$_SESSION['nombreusu'] = $datosUsu[3];
-			$_SESSION['perfil'] = $datosUsu[4];
-			echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=listar.php'>";
-		}
-		else
-		{
-			echo
+if (isset($_POST['txtpass'])) {
+	session_start();
+	include_once 'Conexiones.php';
+	$login = $conn->real_escape_string($_POST['txtlogin']);
+	$pass = $conn->real_escape_string($_POST['txtpass']);
+	$resultado = $conn->query("SELECT * FROM tbusuario where login='$login' and pass='$pass' and activo!=0");
+	$valida = $resultado->num_rows;
+	if ($valida != 0) {
+		$datosUsu = $resultado->fetch_row();
+		$_SESSION['nombreusu'] = $datosUsu[3];
+		$_SESSION['perfil'] = $datosUsu[4];
+		echo "Session entro";
+		echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=listar.php'>";
+	} else {
+		echo
 			"<script>
 				var textnode = document.createTextNode('Usuario ó Password Incorrecto');
 				document.getElementById('msg').appendChild(textnode);
 			</script>";
-
-		}
 	}
-
-
+}
 ?>
-

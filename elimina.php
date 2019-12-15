@@ -5,11 +5,8 @@ if(isset($_SESSION['nombreusu']))
 {
 	$id = $_GET['id'];
 	
-	$conn = new mysqli("localhost","root","","bdproductos");
-
-            if($conn->connect_error){
-                die("Conexion Fallida: ".$conn->connect_error);
-            }
+    include_once 'Conexiones.php';
+    
             $sql ="DELETE FROM productos WHERE idProductos='$id'";
 
 			}
@@ -23,16 +20,4 @@ if(isset($_SESSION['nombreusu']))
             echo "Error: " . $sql . "<br>" . $conn->error;
             echo "<script language='javascript'> alert('No Tiene Permisos'); </script>";
             }
-
-
-
-
-
-
-
-
-
-
-
-
 ?>

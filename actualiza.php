@@ -1,14 +1,9 @@
 <?php
 
 session_start();
-
+include_once 'Conexiones.php';
 	
-    $conn = new mysqli("localhost","root","","bdproductos");
-
-            if($conn->connect_error){
-                die("Conexion Fallida: ".$conn->connect_error);
-            }
-
+    
 	$id = $_GET['id'];
 	$nombre = $_GET['nombre'];
 	$categoria =$_GET['categoria'];
