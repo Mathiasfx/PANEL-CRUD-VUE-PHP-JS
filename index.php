@@ -83,7 +83,7 @@
 <?php
 if (isset($_POST['txtpass'])) {
 	session_start();
-	include_once 'Conexiones.php';
+	include_once 'php/Conexiones.php';
 	$login = $conn->real_escape_string($_POST['txtlogin']);
 	$pass = $conn->real_escape_string($_POST['txtpass']);
 	$resultado = $conn->query("SELECT * FROM tbusuario where login='$login' and pass='$pass' and activo!=0");

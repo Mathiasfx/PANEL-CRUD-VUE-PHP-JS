@@ -3,277 +3,106 @@ session_start();
 if (isset($_SESSION['nombreusu'])) {
 	?>
 	<!DOCTYPE html>
-	<html lang="en">
-
+	<html lang="es">
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 		<title>:: PANEL DE PRECIOS ::</title>
-		<link rel="stylesheet" href="css/bootstrap.min.css">
-		<link rel="stylesheet" href="css/estilos.css">
-		<script src="js/metodos.js"></script>
-		<script language="javascript" type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+		<!-- Boobstrap -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+		<!-- FONT ASOWNAME -->
+		<script src="https://kit.fontawesome.com/8fee61ecf5.js" crossorigin="anonymous"></script>
+		
 
 	</head>
 
 	<body>
-		<header>
-			<nav class="navbar navbar-default navbar-static-top" role="navigation">
+		
+
+
+		<div id="app">
+				<div class="container-fluid">
+					<div class="row bg-dark">
+						<div class="col-lg-12">
+							<p class="text-center text-light display-4 pt-2" style="font-size:20px;">PANEL DE PRODUCTOS </p>
+						</div>		
+					</div>		
+				</div>
+		
+
 				<div class="container">
-					<div class="navbar-header">
-						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navegacion-fm">
-							<span class="sr-only">Desplegar / Ocultar Menu</span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-						</button>
-						<a href="#" class="navbar-brand">Lista de Productos</a>
-					</div>
-					<div class="collapse navbar-collapse" id="navegacion-fm">
-						<ul class="nav navbar-nav">
-							<li><a href="http://www.laclasedigital.com.ar"><span class="glyphicon glyphicon-home"></span> Inicio</a></li>
-							<li><a href="cerrars.php"><span class="glyphicon glyphicon-remove"></span>Salir</a></li>
-						</ul>
-						<ul class="nav navbar-nav navbar-right">
-							<?php
-								echo "<li><a href='#'><span class='glyphicon glyphicon-user'></span> " . $_SESSION['nombreusu'] . "</a></li>";
-								?>
-						</ul>
-					</div>
+					<div class="row mt-3">
+						<div class="col-lg-6">				
+							<div class="input-group mb-3">
+								<input type="text" class="form-control" placeholder="Buscar Producto" aria-label="Buscar Producto" aria-describedby="button-addon2">
+									<div class="input-group-append">
+										<button class="btn btn-outline-secondary" type="button" id="button-addon2">Buscar</button>
+									</div>
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<a href="cerrars.php"><button class="btn btn-danger float-right">Salir</button></a>
+							<button class="btn btn-info float-right mr-3"><i class="fas fa-box"></i>&nbsp;&nbsp;Nuevo Producto</button>
+							<button class="btn btn-info float-right mr-2"><i class="fas fa-box-open"></i>&nbsp;&nbsp;Nueva Categoria</button>
+						</div>			
+					</div>	
+					<hr class="bg-info">
+						<div class="alert alert-danger" v-if="errorMsg">
+						Error				
+						</div>
+						<div class="alert alert-success" v-if="successMsg">
+						Succes			
+						</div>
+						<div class="row">
+							<div class="col-lg-12">
+							<table class="table table-bordered table-striped">
+								<thead>
+									<tr class="text-center bg-info text-light">
+										<th>ID</th>
+										<th>Nombre</th>
+										<th>Imagen</th>
+										<th>Categoria</th>
+										<th>Prefijo</th>
+										<th>Precio</th>
+										<th>Editar</th>										
+										<th>Eliminar</th>	
+									</tr>								
+								</thead>	
+								<tbody>
+									<tr class="text-center">
+										<td>1</td>
+										<td>Pizarra Digital TOMI</td>
+										<td>TOMI.jpg</td>
+										<td>Pizarras Digitales</td>
+										<td>USD</td>
+										<td>500</td>
+										<td><a class="text-success" href="#"><i class="fas fa-pen-square"></i></a></td>
+										<td><a class="text-danger" href="#"><i class="fas fa-trash-alt"></i></a></td>
+									</tr>
+								
+								</tbody>							
+							</table>							
+							</div>							
+						</div>
 				</div>
-			</nav>
-		</header>
-
-
-		<div class="container">
-
-			<div class="row">
-				<form class="form-inline">
-					<input class="form-control" type="text" placeholder="Buscar Producto"><button class="btn btn-secondary" type="button">Buscar</button>
-				</form>
-				<br>
-			</div>
-
-
-
-			<div class="row">
-
-
-				<a class="btn btn-success" data-toggle="modal" data-target="#nuevoUsu">Nuevo Producto</a><span> </span><a class="btn btn-default" data-toggle="modal" data-target="#nuevaCat">Nueva Categoria</a><br><br>
-
-
-
-
-
-
-				<table class='table'>
-					<tr>
-						<th>Id</th>
-						<th>Nombre</th>
-						<th>Imagen</th>
-						<th>Categoria</th>
-						<th>$</th>
-						<th>Precio</th>
-						<th><span class="glyphicon glyphicon-wrench"></span></th>
-					</tr>
-					<?php
-
-						include_once 'Conexiones.php';
-
-						
-
-					
-						$datosCategoria = "SELECT * FROM `categoria`";
-						$result = mysqli_query($conn, $datosCategoria);
-						$result2 = mysqli_query($conn, $datosCategoria);
-
-						
-						$consulta = "SELECT * FROM productos limit 0,10";
-						//para paginar
-						//$consulta = "SELECT * FROM productos limit 0,10";
-
-						if ($resultado =$conn->query($consulta)) {
-							while ($fila = $resultado->fetch_row()) {
-								echo "<tr>";
-								echo "<td>$fila[0]</td><td>$fila[1]</td><td>$fila[2]</td><td>$fila[3]</td><td>$fila[4]</td><td>$fila[5]</td>";
-								echo "<td>";
-								echo "<a data-toggle='modal' data-target='#edit' data-id='" . $fila[0] . "' data-nombre='" . $fila[1] . "' data-imagen='" . $fila[2] . "' data-categoria='" . $fila[3] . "' data-prefijo='" . $fila[4] . "'data-precio='" . $fila[5] . "' class='btn btn-warning'><span class='glyphicon glyphicon-pencil'></span>Editar</a> ";
-								// echo "<a class='btn btn-danger' href='elimina.php?id=".$fila[0]."' method='GET'><span class='glyphicon glyphicon-remove'></span>  Eliminar</a>";
-								echo "</td>";
-								echo "</tr>";
-							}
-
-
-							$resultado->close();
-						}
-						$conn->close();
-
-
-
-						?>
-
-				</table>
-
-
-
-			</div>
-
-			<div class="modal" id="nuevoUsu" tabindex="-1" role="dialog" aria-labellebdy="myModalLabel" aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-							<h4>Nuevo Producto</h4>
-						</div>
-						<div class="modal-body">
-							<form action="insertar.php" method="POST">
-								<div class="form-group">
-									<label for="nombre">Nombre Producto:</label>
-									<input class="form-control" id="nombre" name="nombre" type="text" placeholder="Nombre Producto"></input>
-								</div>
-								<div class="form-group">
-									<select name="image" id="imagen">
-										<label for="Imagen">Imagen:</label>
-											<h1>IMAGEN</h1>
-									
-									</select>
-								</div>
-								<div class="form-group">
-									<select name="categoria" id="categoria">
-										<label for="categoria">Categoria:</label>
-
-										<?php while ($row = mysqli_fetch_array($result)) :; ?>
-
-											<option value="<?php echo $row[1]; ?>"><?php echo $row[1]; ?></option>
-
-										<?php endwhile; ?>
-									</select>
-								</div>
-
-								<div class="form-group">
-									<label for="direccion">Prefijo:</label>
-									<input class="form-control" id="prefijo" name="prefijo" type="text" placeholder="Prefijo $ USD EURO "></input>
-								</div>
-
-								<div class="form-group">
-									<label for="direccion">Precio:</label>
-									<input class="form-control" id="precio" name="precio" type="text" placeholder="Precio "></input>
-								</div>
-
-								<input type="submit" class="btn btn-success" value="Guardar">
-							</form>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-warning" data-dismiss="modal">Cerrar</button>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="modal" id="edit" tabindex="-1" role="dialog" aria-labellebdy="myModalLabel" aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-							<h4>Editar Producto</h4>
-						</div>
-						<div class="modal-body">
-							<form action="actualiza.php" method="GET">
-
-								<input id="id" name="id" type="hidden"></input>
-								<div class="form-group">
-									<label for="nombre">Nombre:</label>
-									<input class="form-control" id="nombre" name="nombre" type="text"></input>
-								</div>
-								<div class="form-group">
-									<label for="nombre">Imagen:</label>
-									<h1>IMAGEN</h1>
-								</div>
-								<div class="form-group">
-								<label for="categoria">Categoria:</label>
-									<select name="categoria" id="categoria">
-										
-
-										<?php while ($row = mysqli_fetch_array($result2)) :; ?>
-
-											<option value="<?php echo $row[1]; ?>"><?php echo $row[1]; ?></option>
-
-										<?php endwhile; ?>
-									</select>
-								</div>
-
-								<div class="form-group">
-									<label for="prefijo">Prefijo:</label>
-									<input class="form-control" id="prefijo" name="prefijo" type="text" placeholder="Prefijo $ USD EURO "></input>
-								</div>
-
-								<div class="form-group">
-									<label for="precio">Precio:</label>
-									<input class="form-control" id="precio" name="precio" type="text" placeholder="Precio "></input>
-								</div>
-
-
-
-								<input type="submit" class="btn btn-success">
-							</form>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-warning" data-dismiss="modal">Cerrar</button>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="modal" id="nuevaCat" tabindex="-1" role="dialog" aria-labellebdy="myModalLabel" aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-							<h4>Nueva Categoria</h4>
-						</div>
-						<div class="modal-body">
-							<form action="insertarCategoria.php" method="POST">
-								<div class="form-group">
-									<label for="nombre">Nombre Categoria:</label>
-									<input class="form-control" id="nombre" name="nombre" type="text" placeholder="Nombre Categoria"></input>
-								</div>
-
-								<input type="submit" class="btn btn-success" value="Guardar">
-							</form>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-warning" data-dismiss="modal">Cerrar</button>
-						</div>
-					</div>
-				</div>
-			</div>
-
-
 
 		</div>
-		<script src="js/jquery.min.js"></script>
-		<script src="js/bootstrap.min.js"></script>
-		<script>
-			$('#edit').on('show.bs.modal', function(event) {
-				var button = $(event.relatedTarget) // Button that triggered the modal
-				var recipient0 = button.data('id')
-				var recipient1 = button.data('nombre')
-				var recipient2 = button.data('categoria')
-				var recipient3 = button.data('prefijo')
-				var recipient4 = button.data('precio')
-				// Extract info from data-* attributes
-				// If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-				// Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
 
-				var modal = $(this)
-				modal.find('.modal-body #id').val(recipient0)
-				modal.find('.modal-body #nombre').val(recipient1)
-				modal.find('.modal-body #categoria').val(recipient2)
-				modal.find('.modal-body #prefijo').val(recipient3)
-				modal.find('.modal-body #precio').val(recipient4)
-			});
-		</script>
+		
 
+
+
+			
+					
+
+				
+			
+
+		
+		<!-- VUE -->
+		<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+		<!-- METODOS JS VUE -->
+		<script type="text/javascript" src="js/metodos.js"></script>
 	</body>
 
 	</html>
