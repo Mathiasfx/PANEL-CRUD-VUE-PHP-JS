@@ -60,6 +60,7 @@ if (isset($_SESSION['nombreusu'])) {
 									<tr class="text-center bg-info text-light">
 										<th>ID</th>
 										<th>Nombre</th>
+										<th>Descripcion</th>
 										<th>Imagen</th>
 										<th>Categoria</th>
 										<th>Prefijo</th>
@@ -72,8 +73,10 @@ if (isset($_SESSION['nombreusu'])) {
 									<tr class="text-center" v-for="producto in productos">
 										<td>{{producto.idProductos}}</td>
 										<td>{{producto.NombreProducto}}</td>
+										<td class="text-left" v-if="producto.Descripcion.length < 30">{{producto.Descripcion}}</td>
+										<td class="text-left" v-else>{{producto.Descripcion.substring(0,30)+".."}}</td>
 										<!-- <td>{{producto.Imagen}}</td> -->
-										 <td><img :src="'productImages/'+producto.Imagen" width="60"></td> 
+										 <td><img :src="'productImages/'+producto.Imagen" width="50" height="50"></td> 
 										<td>{{producto.CategoriaID}}</td>
 										<td>{{producto.Prefijo}}</td>
 										<td>{{producto.Precio}}</td>
@@ -103,6 +106,9 @@ if (isset($_SESSION['nombreusu'])) {
 								<input type="text" name="Nombre" class="form-control form-control-lg" placeholder="Nombre Producto" v-model="NuevoProducto.Nombre">								
 							</div>
 							<div class="form-group">
+							<textarea type="text" id="Descripcion" name="Descripcion" class="form-control form-control-lg" placeholder="Descripcion del producto" v-model="NuevoProducto.Descripcion"></textarea>								
+							</div>
+							<div class="form-group">
 								<label for="imagen">Seleccionar Imagen</label>
 								 <img v-if="eurl" :src="eurl" width="40"><br> 
 								<input type="file" name="Imagen" ref="Imagen" id="Imagen" class="form-control-file" @change="everImagen()"  >		
@@ -116,7 +122,12 @@ if (isset($_SESSION['nombreusu'])) {
 										
 							</div>	
 							<div class="form-group">
-								<input type="text" name="Prefijo" id="Prefijo" class="form-control form-control-lg" placeholder="Prefijo $$" v-model="NuevoProducto.Prefijo">								
+								<label for="exampleFormControlSelect1">Prefijo</label>
+								<select class="form-control" name="Prefijo" id="Prefijo"  v-model="NuevoProducto.Prefijo">
+								<option value="USD">USD</option>
+								<option value="$">$</option>
+								</select>
+								<!-- <input type="text" name="Prefijo" id="Prefijo" class="form-control form-control-lg" placeholder="USD $"">								 -->
 							</div>	
 							<div class="form-group">
 								<input type="text" name="Precio" id="Precio" class="form-control form-control-lg" placeholder="Precio " v-model="NuevoProducto.Precio">								
@@ -185,13 +196,17 @@ if (isset($_SESSION['nombreusu'])) {
 								<input type="text" name="Nombre" class="form-control form-control-lg" v-model="currentProducto.NombreProducto">								
 							</div>
 							<div class="form-group">
-								<label for="Imagen">Cambiar Imagen</label>
-								<div v-inf="eurl">
-									<img :src="eurl" width="40" ><br>									
+								<textarea type="text" name="Descripcion" id="Descripcion" class="form-control form-control-lg" v-model="currentProducto.Descripcion"> </textarea>								
+							</div>
+							<div class="form-group">
+								<label for="eImagen">Cambiar Imagen</label>
+								<div v-if="eurl">
+									<img :src="eurl" width="12%"><br>									
 								</div>
 								<div v-else="eurl">
-									<img :src="'productImages/'+currentProducto.Imagen" width="40">									
+									<img :src="'productImages/'+currentProducto.Imagen" width="12%"><br>									
 								</div>
+								<input type="hidden" id="idProductos" name="idProductos"  v-model="currentProducto.idProductos">	 
 								<input type="file" class="form-control-file" name="eImagen" ref="eImagen" id="eImagen" @change="everImagen()">							
 							</div>								
 							<div class="form-group">
@@ -203,7 +218,13 @@ if (isset($_SESSION['nombreusu'])) {
 										</select>					
 							</div>	
 							<div class="form-group">
-								<input type="text" name="Prefijo" class="form-control form-control-lg"  v-model="currentProducto.Prefijo">								
+							<label for="exampleFormControlSelect1">Prefijo</label>
+							<select class="form-control" name="Prefijo" id="Prefijo"  v-model="currentProducto.Prefijo">
+								<option>{{currentProducto.Prefijo}}</option>
+								<option value="USD">USD</option>
+								<option value="$">$</option>
+								</select>
+								<!-- <input type="text" name="Prefijo" class="form-control form-control-lg"  v-model="currentProducto.Prefijo">								 -->
 							</div>	
 							<div class="form-group">
 								<input type="text" name="Precio" class="form-control form-control-lg"  v-model="currentProducto.Precio">								
@@ -283,7 +304,7 @@ if (isset($_SESSION['nombreusu'])) {
 					eurl:null,					
 					productos:[],
 					categorias:[],
-					NuevoProducto:{Nombre:"",Imagen:"",CategoriaID:"",Prefijo:"",Precio:""},
+					NuevoProducto:{Nombre:"",Descripcion:"", Imagen:"",CategoriaID:"",Prefijo:"",Precio:""},
 					NuevaCategoria:{NombreCategoria:""},
 					currentProducto:{}
 					},
@@ -314,11 +335,12 @@ if (isset($_SESSION['nombreusu'])) {
 							});
 
 						},
+					
 						AddProducto(){
 							var formData = app.toFormData(app.NuevoProducto);
 							formData.append("Imagen",document.getElementById("Imagen").files[0])
 							axios.post("http://localhost/webs/PHPHUB/Procesar.php?action=create",formData).then(function(response){
-								app.NuevoProducto = {Nombre: "",Imagen: "",Categoria: "",Prefijo: "",Precio: ""};
+								app.NuevoProducto = {Nombre: "",Descripcion:"",Imagen: "",Categoria: "",Prefijo: "",Precio: ""};
 								if(response.data.error){
 									app.errorMsg = response.data.message;
 								}else{
@@ -342,9 +364,11 @@ if (isset($_SESSION['nombreusu'])) {
 
 							});
 
-						},
+						},						
+						
 						updateProducto(){
 							var formData = app.toFormData(app.currentProducto);
+							formData.append("idProductos",document.getElementById("idProductos").value)
 							formData.append("eImagen",document.getElementById("eImagen").files[0])
 							axios.post("http://localhost/webs/PHPHUB/Procesar.php?action=update",formData).then(function(response){
 								app.currentProducto = {};
@@ -352,8 +376,9 @@ if (isset($_SESSION['nombreusu'])) {
 									app.errorMsg = response.data.message;
 								}else{
 									app.successMsg = response.data.message;
-									app.getAllProducts();
+									app.getAllProducts();									
 								}
+								
 
 							});
 
@@ -371,17 +396,8 @@ if (isset($_SESSION['nombreusu'])) {
 
 							});
 
-						},
-						 VerImagen(){
-						 	var _this = this
-					    	this.file = _this.$refs.Imagen.files[0];
-						  	this.url = URL.createObjectURL(_this.file);
-						  },
-						 everImagen(){
-						 	var _this = this
-						 	this.file = _this.$refs.eImagen.files[0];
-						 	this.eurl = URL.createObjectURL(_this.file);
-						 },
+						},				
+					
 						 InsertarImagen(){
 						  	var formdata=new FormData()
 						  	formdata.append("Imagen",document.getElementById("Imagen").files[0])
@@ -391,6 +407,23 @@ if (isset($_SESSION['nombreusu'])) {
 						 		app.getAllProducts();
 						  	});
 						 },
+
+						 VerImagen:function(){
+						 	var _this = this
+					    	_this.file = _this.$refs.Imagen.files[0];
+						  	_this.url = URL.createObjectURL(_this.file);
+						  },
+						 everImagen:function(){
+						 	var _this = this
+						 	_this.file = _this.$refs.eImagen.files[0];
+						 	_this.eurl = URL.createObjectURL(_this.file);
+						 },
+					
+
+						SelectProduct(producto){
+							app.currentProducto = producto;
+
+						},
 						toFormData(obj){
 							var fd = new FormData();
 							for(var i in obj){
@@ -400,10 +433,7 @@ if (isset($_SESSION['nombreusu'])) {
 
 						},
 
-						SelectProduct(producto){
-							app.currentProducto = producto;
-
-						},
+						
 						
 						clearMsg(){
 							app.errorMsg = "";
