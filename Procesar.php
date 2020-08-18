@@ -31,6 +31,7 @@ require 'php/Conexiones.php';
     }
     //Metodo Crear Nuevo Producto
     if ($action== 'create') {
+        $Posicion = $_POST['Posicion'];
         $Nombre = $_POST['Nombre'];
         $Descripcion = $_POST['Descripcion'];
         $Imagen = $_FILES['eImagen']['name']; 
@@ -41,7 +42,7 @@ require 'php/Conexiones.php';
         $Categoria = $_POST['CategoriaID'];
 		$Prefijo = $_POST['Prefijo'];
         $Precio = $_POST['Precio'];
-        $sql = $conn->query("INSERT INTO `productos`(`NombreProducto`,`Descripcion`,`Imagen`,`Link`, `CategoriaID`, `Prefijo`, `Precio`) VALUES ('$Nombre', '$Descripcion','$Imagen','$Link','$Categoria','$Prefijo','$Precio')");
+        $sql = $conn->query("INSERT INTO `productos`(`Posicion`, `NombreProducto`,`Descripcion`,`Imagen`,`Link`, `CategoriaID`, `Prefijo`, `Precio`) VALUES ('$Nombre', '$Descripcion','$Imagen','$Link','$Categoria','$Prefijo','$Precio')");
         if ($sql) {
             $result['message'] = "Producto Agregado Correctamente";
         }
@@ -67,6 +68,7 @@ require 'php/Conexiones.php';
     //Metodo Actualizar Producto
     if ($action== 'update') {
         $id = $_POST['idProductos'];
+        $Posicion = $_POST['Posicion'];
         $Nombre = $_POST['NombreProducto'];
         $Descripcion = $_POST['Descripcion'];       
         $Categoria = $_POST['CategoriaID'];
@@ -82,9 +84,9 @@ require 'php/Conexiones.php';
             $Imagen= $_FILES['eImagen']['name'];
         endif;
         if ($Imagen != "") {
-            $sql =  $conn->query("UPDATE productos SET NombreProducto= '$Nombre', Descripcion='$Descripcion',Imagen='$Imagen',Link='$Link' ,CategoriaID='$Categoria',Prefijo='$Prefijo', Precio= '$Precio' WHERE idProductos= '$id'");
+            $sql =  $conn->query("UPDATE productos SET Posicion = '$Posicion', NombreProducto= '$Nombre', Descripcion='$Descripcion',Imagen='$Imagen',Link='$Link' ,CategoriaID='$Categoria',Prefijo='$Prefijo', Precio= '$Precio' WHERE idProductos= '$id'");
         }
-            $sql =  $conn->query("UPDATE productos SET NombreProducto= '$Nombre', Descripcion='$Descripcion',Link='$Link',CategoriaID='$Categoria',Prefijo='$Prefijo',Precio= '$Precio' WHERE idProductos= '$id'");
+            $sql =  $conn->query("UPDATE productos SET Posicion = '$Posicion', NombreProducto= '$Nombre', Descripcion='$Descripcion',Link='$Link',CategoriaID='$Categoria',Prefijo='$Prefijo',Precio= '$Precio' WHERE idProductos= '$id'");
         //Mensaje de Proceso
         if ($sql) {
             $result['message'] = "Producto Actualizado Correctamente";

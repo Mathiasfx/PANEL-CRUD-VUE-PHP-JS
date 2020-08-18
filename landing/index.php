@@ -140,7 +140,8 @@
                         <div class="col-lg-6">
                             <div class="image-container">
                                 <a href="https://www.laclasedigital.com.ar/contacto-pizarras-interactivas/">
-                                    <img :src="'https://www.laclasedigital.com.ar/paneldecontrol/productImages/'+producto.Imagen" width="350px">
+                                <!-- <img :src="'../productImages/'+producto.Imagen" width="350px"> -->
+                                     <img :src="'https://www.laclasedigital.com.ar/paneldecontrol/productImages/'+producto.Imagen" width="350px"> 
                             </div> <!-- end of image-container -->
                         </div> <!-- end of col -->
                     </div> <!-- end of row -->

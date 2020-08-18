@@ -38,7 +38,7 @@ if (isset($_SESSION['nombreusu'])) {
 					<!-- Buscador - Falta Configurar -->
 					<!-- Botones de Salir - Agregar Producto y Categoria VUE-->
 					<div class="col-lg-6">
-						<a href="cerrars.php"><button class="btn btn-danger float-right">Salir</button></a>
+						<a href="index.php"><button class="btn btn-danger float-right">Salir</button></a>
 						<button class="btn btn-info float-right mr-3" @click="MostrarAgregarProducto=true"><i class="fas fa-box"></i>&nbsp;&nbsp;Nuevo Producto</button>
 						<button class="btn btn-info float-right mr-2" @click="AgregarCategoria=true"><i class="fas fa-box-open"></i>&nbsp;&nbsp;Nueva Categoria</button>
 					</div>
@@ -60,7 +60,7 @@ if (isset($_SESSION['nombreusu'])) {
 							<thead>
 								<!-- Titulos-->
 								<tr class="text-center bg-info text-light">
-									<th>ID</th>
+									<th>Pos</th>
 									<th>Nombre</th>
 									<th>Descripcion</th>
 									<th>Imagen</th>
@@ -76,7 +76,7 @@ if (isset($_SESSION['nombreusu'])) {
 							<tbody>
 								<!-- Contenido-->
 								<tr class="text-center" v-for="producto in productos">
-									<td>{{producto.idProductos}}</td>
+									<td>{{producto.Posicion}}</td>
 									<td>{{producto.NombreProducto}}</td>
 									<td class="text-left" v-if="producto.Descripcion.length < 30">{{producto.Descripcion}}</td>
 									<td class="text-left" v-else>{{producto.Descripcion.substring(0,30)+".."}}</td>
@@ -109,6 +109,10 @@ if (isset($_SESSION['nombreusu'])) {
 						</div>
 						<div class="modal-body p-4">
 							<form action="#" method="post">
+								<!-- Input Posicion-->
+								<div class="form-group">
+									<input type="text" name="Posicion" class="form-control form-control-lg" placeholder="Posicion" v-model="NuevoProducto.Posicion">
+								</div>
 								<!-- Input Nombre-->
 								<div class="form-group">
 									<input type="text" name="Nombre" class="form-control form-control-lg" placeholder="Nombre Producto" v-model="NuevoProducto.Nombre">
@@ -124,21 +128,18 @@ if (isset($_SESSION['nombreusu'])) {
 									<input type="file" class="form-control-file" name="eImagen" ref="eImagen" id="eImagen" @change="everImagen()">
 								</div>
 								<!-- Input Link-->
-								<div class="form-group">
-									<label for="Link">Insertar Link</label>
+								<div class="form-group">			
 									<input type="text" id="Link" class="form-control form-control-lg" placeholder="Link Video o Descripcion" v-model="NuevoProducto.Link">
 								</div>
 								<!-- Select Categoria-->
 								<div class="form-group">
-									<label for="SelectCategoria">Categoria</label>
-									<select class="form-control" id="CategoriaID" v-model="NuevoProducto.CategoriaID">
+										<select class="form-control" id="CategoriaID" v-model="NuevoProducto.CategoriaID">
 										<option v-for="categoria in categorias" :value="categoria.CategoriaID">{{ categoria.CategoriaID }}</option>
 									</select>
 								</div>
 								<!-- Select Prefijo-->
 								<div class="form-group">
-									<label for="exampleFormControlSelect1">Prefijo</label>
-									<select class="form-control" name="Prefijo" id="Prefijo" v-model="NuevoProducto.Prefijo">
+										<select class="form-control" name="Prefijo" id="Prefijo" v-model="NuevoProducto.Prefijo">
 										<option value="USD">USD</option>
 										<option value="$">$</option>
 									</select>
@@ -198,6 +199,10 @@ if (isset($_SESSION['nombreusu'])) {
 						</div>
 						<div class="modal-body p-4">
 							<form action="#" method="post">
+							<!-- Input Producto-->
+							<div class="form-group">
+									<input type="text" name="PosicionProducto" class="form-control form-control-lg" placeholder="Posicion" v-model="currentProducto.Posicion">
+								</div>
 								<!-- Input Nombre Producto-->
 								<div class="form-group">
 									<input type="text" name="NombreProducto" class="form-control form-control-lg" v-model="currentProducto.NombreProducto">
@@ -304,6 +309,7 @@ if (isset($_SESSION['nombreusu'])) {
 					productos: [],
 					categorias: [],
 					NuevoProducto: {
+						Posicion: "",
 						Nombre: "",
 						Descripcion: "",
 						Imagen: "",
@@ -348,6 +354,7 @@ if (isset($_SESSION['nombreusu'])) {
 						formData.append("eImagen", document.getElementById("eImagen").files[0])
 						axios.post("Procesar.php?action=create", formData).then(function(response) {
 							app.NuevoProducto = {
+								Posicion:"",
 								Nombre: "",
 								Descripcion: "",
 								Imagen: "",
@@ -457,7 +464,8 @@ if (isset($_SESSION['nombreusu'])) {
 } else {
 ?>
 	<!-- Si la session no esta activa se devuelve a la pagina de inicio -->
-	<META HTTP-EQUIV="Refresh" CONTENT="0; URL=https://www.laclasedigital.com.ar/paneldecontrol/index.php">
+	 <META HTTP-EQUIV="Refresh" CONTENT="0; URL=https://www.laclasedigital.com.ar/paneldecontrol/index.php"> 
+		<!-- <META HTTP-EQUIV="Refresh" CONTENT="0; URL=index.php">	-->
 <?php
 }
 ?>

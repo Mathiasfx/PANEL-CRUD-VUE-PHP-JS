@@ -52,7 +52,7 @@ header('Access-Control-Allow-Origin: *');
 						</span>
 					</div>
 					<div class="container-login100-form-btn p-t-10">
-						<input type="submit" class="btn btn-success" value="Ingresar">
+						<input type="submit" class="btn btn-info" value="Ingresar">  
 					</div>
 				</form>
 			</div>
@@ -85,7 +85,7 @@ if (isset($_POST['txtpass'])) {
 		echo
 			"<script>
 				html = `<h2>Usuario o Contraseña Incorrecta</h2>`
-				document.getElementById('msg').appendChild(html);
+				document.getElementById('msg').innerHTML = html;
 			</script>";
 			}
 }

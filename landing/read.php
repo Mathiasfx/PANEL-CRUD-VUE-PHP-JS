@@ -1,6 +1,6 @@
 <?php
 header('Access-Control-Allow-Origin: *');
-// include('https://www.laclasedigital.com.ar/paneldecontrol/php/Conexiones.php');
+//  include('../php/Conexiones.php');
 
 $conn = new mysqli("localhost","laclase_mathias","Formosa1480","laclase_b2evolu");
 
@@ -17,7 +17,7 @@ $conn = new mysqli("localhost","laclase_mathias","Formosa1480","laclase_b2evolu"
  }
 
  if($action == 'read'){
-     $sql = $conn->query("SELECT * FROM `productos`");
+     $sql = $conn->query("SELECT * FROM `productos` ORDER BY Posicion ASC"); //DESC ASC
      $productos = array();
      while($row = $sql->fetch_assoc()){
          array_push($productos,$row);
